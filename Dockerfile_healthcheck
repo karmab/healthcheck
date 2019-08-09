@@ -1,0 +1,22 @@
+FROM alpine:3.8
+
+MAINTAINER Karim Boumedhel <karimboumedhel@gmail.com>
+
+LABEL name="karmab/healthchek" \
+      maintainer="karimboumedhel@gmail.com" \
+      vendor="Karmalabs" \
+      version="latest" \
+      release="0" \
+      summary="Healthcheck" \
+      description="Healthcheck"
+
+EXPOSE 9000
+
+RUN apk add --update --no-cache python3-dev
+RUN pip3 install -U --no-cache-dir setuptools pip
+RUN pip3 install flask
+
+ADD healthcheck.py /usr/bin
+RUN chmod o+x /usr/bin/healthcheck.py
+
+ENTRYPOINT ["/usr/bin/healthcheck.py"]
